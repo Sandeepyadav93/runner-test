@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-// comment
+// comment patch1
 func TestAdd(t *testing.T) {
 	want := 5
 	got := Add(2, 3)
