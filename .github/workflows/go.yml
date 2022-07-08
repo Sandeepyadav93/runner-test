@@ -8,4 +8,7 @@ jobs:
     steps:
 
     - name: Create a file
-      run: touch $HOME/sandeep_test
+      run: |
+        echo 'hello' > sandeep_test
+        cp sandeep_test sandeep_test2
+        rm sandeep_test
