@@ -7,6 +7,13 @@ jobs:
     runs-on: self-hosted
     steps:
 
+    - name: Install CRC
+      run: |
+        sudo dnf install git -y
+        git clone https://github.com/openstack-k8s-operators/install_yamls.git
+        cd install_yamls/devsetup/scripts/
+        bash crc-setup.sh https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/crc/latest/crc-linux-amd64.tar.xz password $HOME/token.txt
+        
     - name: Install operator
       run: |
         eval $(crc oc-env)
