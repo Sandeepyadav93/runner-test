@@ -9,6 +9,5 @@ jobs:
 
     - name: Create a file
       run: |
-        echo 'hello' > sandeep_test
-        cp sandeep_test sandeep_test2
-        rm sandeep_test
+        echo 'hello' > $HOME/sandeep_test
+        cp $HOME/sandeep_test $HOME/sandeep_test2
