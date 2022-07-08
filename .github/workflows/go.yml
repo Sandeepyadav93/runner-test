@@ -19,7 +19,7 @@ jobs:
         bash crc-setup.sh https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/crc/latest/crc-linux-amd64.tar.xz password $HOME/token.txt
         sleep 30 # wait for openshift to be ready, will replace with better check
         
-    - name: Install operator
+    - name: Install operators
       run: |
         eval $(crc oc-env)
         oc login -u kubeadmin -p password https://api.crc.testing:6443
