@@ -7,7 +7,27 @@ jobs:
     runs-on: self-hosted
     steps:
 
-    - name: Create a file
+    - name: Install operator
       run: |
-        echo 'hello' > $HOME/sandeep_test
-        cp $HOME/sandeep_test $HOME/sandeep_test2
+        eval $(crc oc-env)
+        oc login -u kubeadmin -p password https://api.crc.testing:6443
+        cd $HOME/install_yamls
+        make crc_storage
+        make mariadb
+        make keystone
+        sleep 60 # wait 60 seconds so that operator install completes successfully, will replace with better check
+        make mariadb_deploy
+        sleep 60 # wait 60 seconds so that mariadb service install successfully, will replace with better checks
+        make keystone_deploy
+        sleep 90 # wait 120 seconds so that keystone service install successfully, will replace with better checks
+
+    - name: Post check to confirm keystone service is working
+      run: |
+        sudo dnf install python3-openstackclient -y
+        export OS_PROJECT_NAME=admin
+        export OS_USERNAME=admin
+        export OS_PASSWORD=12345678
+        export OS_AUTH_URL=http://keystone-public-openstack.apps-crc.testing
+        export OS_USER_DOMAIN_NAME=Default
+        export OS_PROJECT_DOMAIN_NAME=Default
+        openstack token issue
